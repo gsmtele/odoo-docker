@@ -71,15 +71,10 @@ RUN npm install -g rtlcss
 ENV ODOO_VERSION 16.0
 ARG ODOO_RELEASE=20250428
 ARG ODOO_SHA=e5d936d73b4c08ce62eedebf7aa6d626507cee8b
-ARG ODOO_DEB_URL=""
+ARG ODOO_DEB_URL
 
-RUN if [ -n "${ODOO_DEB_URL}" ]; then \
-        echo "Using custom DEB URL: ${ODOO_DEB_URL}"; \
-        curl -o odoo.deb -sSL "${ODOO_DEB_URL}"; \
-    else \
-        echo "Using constructed URL with version ${ODOO_VERSION} and release ${ODOO_RELEASE}"; \
-        curl -o odoo.deb -sSL "http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb"; \
-    fi \
+RUN ODOO_URL=${ODOO_DEB_URL:-"http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb"} \
+    && curl -o odoo.deb -sSL "${ODOO_URL}" \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
     && apt-get -y install --no-install-recommends ./odoo.deb \
