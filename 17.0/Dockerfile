@@ -70,14 +70,10 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main' > /etc/a
 RUN npm install -g rtlcss
 
 # Install Odoo
-# Build arguments for Odoo installation
-ARG ODOO_VERSION=17.0
+ENV ODOO_VERSION 17.0
 ARG ODOO_RELEASE=20250428
 ARG ODOO_SHA=7c3973809e0cf91494cfa2e795a43378263ca6e8
 ARG ODOO_DEB_URL=""
-
-# Set environment variable for Odoo version
-ENV ODOO_VERSION=${ODOO_VERSION}
 
 RUN if [ -n "${ODOO_DEB_URL}" ]; then \
         echo "Using custom DEB URL: ${ODOO_DEB_URL}"; \

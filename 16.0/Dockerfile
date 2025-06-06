@@ -68,14 +68,10 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /et
 RUN npm install -g rtlcss
 
 # Install Odoo
-# Build arguments for Odoo installation
-ARG ODOO_VERSION=16.0
+ENV ODOO_VERSION 16.0
 ARG ODOO_RELEASE=20250428
 ARG ODOO_SHA=e5d936d73b4c08ce62eedebf7aa6d626507cee8b
 ARG ODOO_DEB_URL=""
-
-# Set environment variable for Odoo version
-ENV ODOO_VERSION=${ODOO_VERSION}
 
 RUN if [ -n "${ODOO_DEB_URL}" ]; then \
         echo "Using custom DEB URL: ${ODOO_DEB_URL}"; \
